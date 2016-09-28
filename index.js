@@ -19,7 +19,7 @@ const oauth2 = simpleOauthModule.create({
 // Authorization uri definition
 const authorizationUri = oauth2.authorizationCode.authorizeURL({
   redirect_uri: 'https://nodejs-oauth2-sample.cfapps.haas-76.pez.pivotal.io/callback',
-  scope: '',
+  scope: '', // choose the right scopes, leaving empty uses all scopes available for the user
   state: '3(#0/!~',
 });
 
@@ -37,7 +37,9 @@ app.get('/callback', (req, res) => {
     code: code,
     redirect_uri: 'https://nodejs-oauth2-sample.cfapps.haas-76.pez.pivotal.io/callback',
   };
+  // Remove when using a CA signed certificate!!!
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+  //
   oauth2.authorizationCode.getToken(options, (error, result) => {
     if (error) {
       console.error('Access Token Error', error.message);
@@ -58,7 +60,7 @@ app.get('/success', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('Hello<br><a href="/auth">Log in with Github</a>');
+  res.send('Hello<br><a href="/auth">Log in with your SSO account</a>');
 });
 
 app.listen(process.env.PORT || 3000, () => {
