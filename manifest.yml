@@ -1,0 +1,9 @@
+---
+applications:
+- name: nodejs-oauth2-sample
+  memory: 512M
+  instances: 1
+  path: .
+  command: DEBUG=* node index.js
+  env:
+    NO_REBUILD: true
